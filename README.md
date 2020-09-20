@@ -22,7 +22,7 @@ Add `getUserWithFacebook` to [oauth2-server] model.
 
 ```js
   const getUserWithFacebook = async (facebookData) => {
-    // Find and return user by facebook ID
+    // Find and return user by Facebook ID
 
     // Find and return user by Facebook email
 
@@ -46,14 +46,15 @@ Add Facebook grant type to `extendedGrantTypes` in [oauth2-server] options:
   }
 ```
 
-You can customize what fields to return from Facebook by providing `facebookGrantType` options:
+You can customize what fields to return from Facebook by providing `facebookGrantType` options in model:
 
 ```js
 const options = {
-  model,
-  extendedGrantTypes,
-  facebookGrantType: {
-    fields: ['email', 'first_name', 'last_name', 'picture.width(500).height(500)'], // Default: email, first_name, last_name
+  model: {
+    ...model,
+    facebookGrantType: {
+      fields: ['email', 'first_name', 'last_name', 'picture.width(500).height(500)'], // Default: email, first_name, last_name
+    }
   }
 }
 ```

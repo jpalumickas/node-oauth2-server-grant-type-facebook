@@ -13,7 +13,6 @@ class FacebookGrantType extends AbstractGrantType {
   constructor(options = {}) {
     super(options);
 
-    this.fields = options.facebookGrantType?.fields || defaultFields;
 
     if (!options.model) {
       throw new InvalidArgumentError('Missing parameter: `model`');
@@ -24,6 +23,8 @@ class FacebookGrantType extends AbstractGrantType {
         'Invalid argument: model does not implement `getUserWithFacebook()`'
       );
     }
+
+    this.fields = this.model.facebookGrantType?.fields || defaultFields;
 
     if (!this.fields) {
       throw new InvalidArgumentError(
