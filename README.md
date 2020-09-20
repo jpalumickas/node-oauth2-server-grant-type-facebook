@@ -36,7 +36,7 @@ Add Facebook grant type to `extendedGrantTypes` in [oauth2-server] options:
   import FacebookGrantType from 'oauth2-server-grant-type-facebook';
 
   const options = {
-    model: ...
+    model: ...,
     extendedGrantTypes: {
       facebook: FacebookGrantType,
     }
@@ -44,6 +44,18 @@ Add Facebook grant type to `extendedGrantTypes` in [oauth2-server] options:
       facebook: false,
     },
   }
+```
+
+You can customize what fields to return from Facebook by providing `facebookGrantType` options:
+
+```js
+const options = {
+  model,
+  extendedGrantTypes,
+  facebookGrantType: {
+    fields: ['email', 'first_name', 'last_name', 'picture.width(500).height(500)'], // Default: email, first_name, last_name
+  }
+}
 ```
 
 Post request to `/oauth/token` with `facebook` grant type:

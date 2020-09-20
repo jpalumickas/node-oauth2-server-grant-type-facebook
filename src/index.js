@@ -13,7 +13,7 @@ class FacebookGrantType extends AbstractGrantType {
   constructor(options = {}) {
     super(options);
 
-    this.fields = options.facebookGrant?.fields || defaultFields;
+    this.fields = options.facebookGrantType?.fields || defaultFields;
 
     if (!options.model) {
       throw new InvalidArgumentError('Missing parameter: `model`');
