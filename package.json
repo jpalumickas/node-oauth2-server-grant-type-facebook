@@ -1,7 +1,7 @@
 {
   "name": "oauth2-server-grant-type-facebook",
   "version": "0.1.0",
-  "description": "Facebook Grant Type for OAuth2-Server",
+  "description": "Facebook grant type for oauth2-server",
   "main": "dist/oauth2-server-grant-type-facebook.js",
   "module": "dist/oauth2-server-grant-type-facebook.modern.js",
   "source": "./src/index.js",
