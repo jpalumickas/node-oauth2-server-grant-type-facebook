@@ -13,7 +13,6 @@ class FacebookGrantType extends AbstractGrantType {
   constructor(options = {}) {
     super(options);
 
-
     if (!options.model) {
       throw new InvalidArgumentError('Missing parameter: `model`');
     }
