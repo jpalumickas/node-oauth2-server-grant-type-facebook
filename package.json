@@ -3,7 +3,8 @@
   "version": "0.2.2",
   "description": "Facebook grant type for oauth2-server",
   "main": "dist/oauth2-server-grant-type-facebook.js",
-  "module": "dist/oauth2-server-grant-type-facebook.modern.js",
+  "module": "dist/oauth2-server-grant-type-facebook.module.js",
+  "types": "dist/index.d.ts",
   "source": "./src/index.ts",
   "files": [
     "dist",
@@ -30,7 +31,7 @@
     "rimraf": "^3.0.2"
   },
   "scripts": {
-    "build": "rimraf dist && microbundle --strict --target node -i src/index.ts -o dist -f modern,cjs --no-compress",
+    "build": "rimraf dist && microbundle --strict --target node -i src/index.ts -o dist -f modern,es,cjs --no-compress",
     "dev": "microbundle watch"
   },
   "prettier": {
