@@ -3,15 +3,29 @@ import {
   InvalidArgumentError,
   InvalidRequestError,
   InvalidTokenError,
+  TokenOptions,
+  Request,
+  Client,
+  User,
+  Token,
 } from 'oauth2-server';
 import axios from 'axios';
+import { Model } from './types';
 
 const url = 'https://graph.facebook.com/me';
 const defaultFields = ['email', 'first_name', 'last_name'];
 
+export interface Options extends TokenOptions {
+  model: Model;
+}
+
 class FacebookGrantType extends AbstractGrantType {
-  constructor(options = {}) {
+  model: Model;
+  fields: string[];
+
+  constructor(options: Options) {
     super(options);
+    this.model = options.model;
 
     if (!options.model) {
       throw new InvalidArgumentError('Missing parameter: `model`');
@@ -19,7 +33,7 @@ class FacebookGrantType extends AbstractGrantType {
 
     if (!options.model.getUserWithFacebook) {
       throw new InvalidArgumentError(
-        'Invalid argument: model does not implement `getUserWithFacebook()`'
+        'Invalid argument: model does not implement `getUserWithFacebook()`',
       );
     }
 
@@ -27,13 +41,13 @@ class FacebookGrantType extends AbstractGrantType {
 
     if (!this.fields) {
       throw new InvalidArgumentError(
-        'Invalid argument: fields must be provided in options'
+        'Invalid argument: fields must be provided in options',
       );
     }
 
     if (!options.model.saveToken) {
       throw new InvalidArgumentError(
-        'Invalid argument: model does not implement `saveToken()`'
+        'Invalid argument: model does not implement `saveToken()`',
       );
     }
 
@@ -42,7 +56,7 @@ class FacebookGrantType extends AbstractGrantType {
     this.saveToken = this.saveToken.bind(this);
   }
 
-  async handle(request, client) {
+  async handle(request: Request, client: Client) {
     if (!request) {
       throw new InvalidArgumentError('Missing parameter: `request`');
     }
@@ -57,7 +71,7 @@ class FacebookGrantType extends AbstractGrantType {
     return await this.saveToken(user, client, scope);
   }
 
-  async getUser(request) {
+  async getUser(request: Request) {
     const token = request.body.facebook_token;
 
     if (!token) {
@@ -75,19 +89,23 @@ class FacebookGrantType extends AbstractGrantType {
     }
   }
 
-  async saveToken(user, client, scope) {
+  async saveToken(user: User, client: Client, scope: string | string[]) {
     const scopeData = await this.validateScope(user, client, scope);
     const accessToken = await this.generateAccessToken(client, user, scope);
     const refreshToken = await this.generateRefreshToken(client, user, scope);
     const accessTokenExpiresAt = this.getAccessTokenExpiresAt();
     const refreshTokenExpiresAt = await this.getRefreshTokenExpiresAt();
 
-    const token = {
+    const token: Token = {
       accessToken,
       accessTokenExpiresAt,
       refreshToken,
       refreshTokenExpiresAt,
-      scope: scopeData,
+      scope: scopeData || [],
+      user: {
+        id: user.id,
+      },
+      client,
     };
 
     return await this.model.saveToken(token, client, user);
