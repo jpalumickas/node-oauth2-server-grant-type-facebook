@@ -2,13 +2,19 @@
   "name": "oauth2-server-grant-type-facebook",
   "version": "0.3.0",
   "description": "Facebook grant type for oauth2-server",
-  "main": "dist/oauth2-server-grant-type-facebook.js",
-  "module": "dist/oauth2-server-grant-type-facebook.module.js",
-  "types": "dist/index.d.ts",
-  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "repository": "https://github.com/jpalumickas/node-oauth2-server-grant-type-facebook",
   "author": {
@@ -18,21 +24,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^1.13.2"
   },
   "peerDependencies": {
     "oauth2-server": "3.x"
   },
   "devDependencies": {
     "@types/oauth2-server": "^3.0.18",
-    "microbundle": "^0.15.1",
     "oauth2-server": "^3.1.1",
     "prettier": "^3.7.4",
-    "rimraf": "^6.1.2"
+    "tsup": "^8.5.1"
   },
   "scripts": {
-    "build": "rimraf dist && microbundle --strict --target node -i src/index.ts -o dist -f modern,es,cjs --no-compress",
-    "dev": "microbundle watch"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
   },
   "prettier": {
     "printWidth": 80,
