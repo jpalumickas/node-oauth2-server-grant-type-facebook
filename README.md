@@ -1,15 +1,16 @@
 # OAuth2 Server Facebook Grant Type
 
-Adds Facebook grant type for [oauth2-server][oauth2-server]
+Adds Facebook grant type for [@node-oauth/oauth2-server][oauth2-server]
 
 ## Installation
 
-Using Yarn
+Using pnpm
+
 ```sh
-yarn add oauth2-server-grant-type-facebook
+pnpm add oauth2-server-grant-type-facebook
 ```
 
-Using NPM
+Using npm
 
 ```sh
 npm install oauth2-server-grant-type-facebook
@@ -17,8 +18,7 @@ npm install oauth2-server-grant-type-facebook
 
 ## Usage
 
-
-Add `getUserWithFacebook` to [oauth2-server] model.
+Add `getUserWithFacebook` to [@node-oauth/oauth2-server][oauth2-server] model.
 
 ```js
   const getUserWithFacebook = async (facebookData) => {
@@ -30,16 +30,16 @@ Add `getUserWithFacebook` to [oauth2-server] model.
   };
 ```
 
-Add Facebook grant type to `extendedGrantTypes` in [oauth2-server] options:
+Add Facebook grant type to `extendedGrantTypes` in [@node-oauth/oauth2-server][oauth2-server] options:
 
 ```js
-  import FacebookGrantType from 'oauth2-server-grant-type-facebook';
+  import { FacebookGrantType } from 'oauth2-server-grant-type-facebook';
 
   const options = {
     model: ...,
     extendedGrantTypes: {
       facebook: FacebookGrantType,
-    }
+    },
     requireClientAuthentication: {
       facebook: false,
     },
@@ -54,8 +54,9 @@ const options = {
     ...model,
     facebookGrantType: {
       fields: ['email', 'first_name', 'last_name', 'picture.width(500).height(500)'], // Default: email, first_name, last_name
-    }
-  }
+    },
+  },
+  extendedGrantTypes,
 }
 ```
 
@@ -73,4 +74,4 @@ Post request to `/oauth/token` with `facebook` grant type:
 
 The package is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
-[oauth2-server]: https://github.com/oauthjs/node-oauth2-server
+[oauth2-server]: https://github.com/node-oauth/node-oauth2-server

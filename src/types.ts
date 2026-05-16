@@ -1,10 +1,11 @@
-import {
+import type {
   AuthorizationCodeModel,
   ClientCredentialsModel,
   RefreshTokenModel,
   PasswordModel,
   ExtensionModel,
-} from 'oauth2-server';
+  User,
+} from '@node-oauth/oauth2-server';
 
 type Oauth2ServerModel =
   | AuthorizationCodeModel
@@ -13,16 +14,17 @@ type Oauth2ServerModel =
   | PasswordModel
   | ExtensionModel;
 
-type FacebookTokenData = {
-  first_name: string;
-  last_name: string;
-  email: string;
+export type FacebookUserData = {
   id: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  [key: string]: unknown;
 };
 
 export type Model = Oauth2ServerModel & {
-  facebookGrantType: {
+  facebookGrantType?: {
     fields?: string[];
   };
-  getUserWithFacebook: (data: FacebookTokenData) => any;
+  getUserWithFacebook: (data: FacebookUserData) => Promise<User>;
 };
